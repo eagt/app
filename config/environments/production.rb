@@ -4,7 +4,7 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.cache_classes = true
 
-
+  # HEROKU -- this code below will help to nt pass secret key on github and allows the app to be deploied on Heroku 
   config.secret_key_base = ENV["SECRET_KEY_BASE"]  
 
   # Eager load code on boot. This eager loads most of Rails and

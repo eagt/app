@@ -1,0 +1,13 @@
+class Exercise < ApplicationRecord
+	
+	belongs_to :user
+
+	has_and_belongs_to_many :etypes
+	has_and_belongs_to_many :muscles
+	has_and_belongs_to_many :equipment
+
+	accepts_nested_attributes_for :etypes, allow_destroy: true       #, reject_if: proc {|att| att["name"].blank?}
+	accepts_nested_attributes_for :muscles, allow_destroy: true      #, reject_if: proc {|att| att["name"].blank?}
+	accepts_nested_attributes_for :equipment, allow_destroy: true    #, reject_if: proc {|att| att["name"].blank?}
+	
+end
