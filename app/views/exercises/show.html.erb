@@ -2,7 +2,11 @@
 
 <p>
   <strong>Type:</strong>
-  <%= @exercise.etypes.first.name %>
+  <ol>
+  <% for etype in @exercise.etypes %>
+    <li><%= etype.name %></li>
+    <% end %>
+  </ol>
 </p>
 
 <p>
@@ -12,12 +16,20 @@
 
 <p>
   <strong>Muscle:</strong>
-  <%= @exercise.muscles.first.name %>
+  <ol>
+  <% for muscle in @exercise.muscles %>
+    <li><%= muscle.name %></li>
+    <% end %>
+  </ol>
 </p>
 
 <p>
   <strong>Equipment:</strong>
-  <%= @exercise.equipment.first.name %>
+  <ol>
+  <% for equipment in @exercise.equipment %>
+    <li><%= equipment.name %></li>
+    <% end %>
+  </ol>
 </p>
 
 <p>

@@ -1,31 +1,31 @@
 class ExercisesController < ApplicationController
-  before_action :set_exercise, only: [:show, :edit, :update, :destroy]
- 
+  before_action :set_exercise, only: [:show, :update, :destroy, :edit] # :edit, deleted for a while
+
   # GET /exercises
   # GET /exercises.json
   def index
     @user = User.find(params[:user_id])
   end
 
+
+
   # GET /exercises/1
   # GET /exercises/1.json
-  def show
-     @user = User.find(params[:user_id])
-  end
+   def show
+     @user = User.find(params[:user_id]) 
+   end
 
   # GET /exercises/new
   def new
     @user = User.find(params[:user_id])
     @exercise = Exercise.new
-   
   end
 
-   # POST /exercises
+  # POST /exercises
   # POST /exercises.json
   def create
     @user = User.find(params[:user_id])
     @exercise = Exercise.new(exercise_params)
-
     respond_to do |format|
       if @exercise.save
         format.html { redirect_to @exercise, notice: 'Exercise was successfully created.' }
@@ -37,10 +37,7 @@ class ExercisesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /exercises/1
-  # PATCH/PUT /exercises/1.json
-
-   # GET /exercises/1/edit
+  # GET /exercises/1/edit
   def edit
      @user = User.find(params[:user_id])
      @exercise = Exercise.find(params[:id])
@@ -53,7 +50,14 @@ class ExercisesController < ApplicationController
     respond_to do |format|
       if @exercise.update(exercise_params)
         @exercise.etypes.delete(@exercise.etypes.first) if not(@exercise.etypes.empty?)  
-        @exercise.etypes << Etype.find(params[:exercise][:etypes])          
+        @exercise.etypes << Etype.find(params[:exercise][:etypes]) 
+      
+        @exercise.muscles.delete(@exercise.muscles.first) if not(@exercise.muscles.empty?)  
+        @exercise.muscles << Muscle.find(params[:exercise][:muscles]) 
+
+        @exercise.equipment.delete(@exercise.equipment.first) if not(@exercise.equipment.empty?)  
+        @exercise.equipment<< Equipment.find(params[:exercise][:equipment]) 
+
         format.html { redirect_to user_exercises_path(@user), notice: 'Exercise was successfully updated.' }
         format.json { render :show, status: :ok, location: @exercise }
       else
@@ -64,12 +68,12 @@ class ExercisesController < ApplicationController
   end
 
 
-  
+
+
 
   # DELETE /exercises/1
   # DELETE /exercises/1.json
   def destroy
-    @user = User.find(params[:user_id])
     @exercise.destroy
     respond_to do |format|
       format.html { redirect_to user_exercises_path(@user), notice: 'Exercise was successfully destroyed.' }
@@ -83,12 +87,10 @@ class ExercisesController < ApplicationController
       @exercise = Exercise.find(params[:id])
     end
 
-    def set_user
-      @user = User.find(params[:user_id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def exercise_params
-      params.require(:exercise).permit(:name, :description, :user_id, :etypes_attributes => [:id,:name])
+      #params.require(:exercise).permit(:id, :name, etypes_attributes: Etype.attribute_names.map(&:to_sym).push(:_destroy))
+      params.require(:exercise).permit(:id, :name)
+
     end
 end
